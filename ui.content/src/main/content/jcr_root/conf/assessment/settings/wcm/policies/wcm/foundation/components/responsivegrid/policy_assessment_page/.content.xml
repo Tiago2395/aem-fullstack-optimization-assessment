@@ -3,4 +3,3 @@
           xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
           jcr:primaryType="nt:unstructured"
           components="[assessment/components/weather,wcm/foundation/components/responsivegrid]"/>
-

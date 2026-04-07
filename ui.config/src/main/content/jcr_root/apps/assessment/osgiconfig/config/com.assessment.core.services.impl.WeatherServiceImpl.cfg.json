@@ -1,4 +1,5 @@
 {
-  "api_key": "$[env:WEATHER_API_KEY;default=tu-clave-global]",
-  "api_endpoint": "https://goweather.xyz/weather/%s"
+  "api_key": "$[env:WEATHER_API_KEY;default=]",
+  "api_endpoint": "https://goweather.xyz/weather/%s",
+  "cache_ttl_seconds": 900
 }
