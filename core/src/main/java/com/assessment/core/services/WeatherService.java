@@ -1,7 +1,10 @@
 package com.assessment.core.services;
 
+import com.assessment.core.models.WeatherData;
+import org.apache.sling.api.resource.Resource;
+
 public interface WeatherService {
 
-    String getForecast(String city) throws Exception;
+    WeatherData getForecast(String city, Resource resource) throws Exception;
 }
 

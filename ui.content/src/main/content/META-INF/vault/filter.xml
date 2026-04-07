@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/conf/assessment"/>
-    <filter root="/conf/global"/>
-    <filter root="/content/assessment"/>
+    <filter root="/conf/assessment" mode="merge"/>
+    <filter root="/conf/global" mode="merge"/>
+    <filter root="/content/assessment" mode="merge"/>
 </workspaceFilter>
 

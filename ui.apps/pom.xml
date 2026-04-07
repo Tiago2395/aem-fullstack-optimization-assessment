@@ -20,6 +20,12 @@
             <artifactId>assessment.core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.assessment</groupId>
+            <artifactId>assessment.ui.apps.structure</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -31,9 +37,15 @@
                 <extensions>true</extensions>
                 <configuration>
                     <group>assessment</group>
-                    <packageType>application</packageType>
+                    <packageType>mixed</packageType>
                     <name>assessment.ui.apps</name>
                     <allowIndexDefinitions>true</allowIndexDefinitions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.assessment</groupId>
+                            <artifactId>assessment.ui.apps.structure</artifactId>
+                        </dependency>
+                    </dependencies>
                     <embeddeds>
                         <embedded>
                             <groupId>com.assessment</groupId>

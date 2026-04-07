@@ -1,23 +1,17 @@
 <sly data-sly-use.weatherModel="com.assessment.core.models.WeatherModel"></sly>
 <div class="cmp-weather" data-city="${properties.city @ context='unsafe'}">
     <h2>${weatherModel.pageTitle @ context='unsafe'}</h2>
-    <div class="cmp-weather__server">
-        ${weatherModel.weatherJson @ context='unsafe'}
-    </div>
-    <div class="cmp-weather__client"></div>
-    <script>
-        (function () {
-            var apiKey = 'frontend-weather-key-legacy-123';
-            var city = '${properties.city @ context="unsafe"}' || 'Bogota';
+    <h3>${weatherModel.city}</h3>
 
-            fetch('https://goweather.xyz/weather/' + city + '?apikey=' + apiKey)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    document.querySelector('.cmp-weather__client').innerHTML =
-                        '<p>' + city + ': ' + data.temperature + ' / ' + data.description + '</p>';
-                });
-        }());
-    </script>
+    <div class="cmp-weather__server" data-sly-test="${weatherModel.weatherData}">
+        <p class="temp">Temperature: ${weatherModel.weatherData.temperature}</p>
+        <p class="wind">Wind: ${weatherModel.weatherData.wind}</p>
+        <p class="desc">Weather Conditions: ${weatherModel.weatherData.description}</p>
+    </div>
+
+    <div class="cmp-weather__error" data-sly-test="${!weatherModel.weatherData}">
+        <p>Error getting weather of ${weatherModel.city}.</p>
+    </div>
+
+    <div class="cmp-weather__client"></div>
 </div>

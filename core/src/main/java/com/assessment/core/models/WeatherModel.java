@@ -2,49 +2,56 @@ package com.assessment.core.models;
 
 import com.assessment.core.services.WeatherService;
 import com.day.cq.wcm.api.Page;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 @Model(
         adaptables = SlingHttpServletRequest.class,
         defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class WeatherModel {
 
-    @Inject
+    private static final Logger LOG = LoggerFactory.getLogger(WeatherModel.class);
+
+    @Self
+    private SlingHttpServletRequest request;
+
+    @ValueMapValue
     private String city;
 
     @Inject
     private Page currentPage;
 
-    @Inject
+    @OSGiService
     private WeatherService weatherService;
 
-    private String weatherJson;
+    private WeatherData weatherData;
 
     @PostConstruct
-    protected void init() throws Exception {
-        String requestedCity = city != null ? city : "Bogota";
-        URL url = new URL(
-                "https://goweather.xyz/weather/"
-                        + URLEncoder.encode(requestedCity, StandardCharsets.UTF_8)
-                        + "?apikey=model-level-hardcoded-key");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        weatherJson = new String(connection.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+    protected void init() {
+        String requestedCity = getCity();
+
+        try {
+            this.weatherData = weatherService.getForecast(getCity(), request.getResource());
+        } catch (Exception e) {
+            LOG.error("Error getting weather city: {}", requestedCity, e);
+        }
     }
 
     public String getCity() {
-        return city != null ? city : "Bogota";
+        return (city != null && !city.isEmpty()) ? city : "Bogota";
     }
 
-    public String getWeatherJson() {
-        return weatherJson;
+    public WeatherData getWeatherData() {
+        return weatherData;
     }
 
     public String getPageTitle() {

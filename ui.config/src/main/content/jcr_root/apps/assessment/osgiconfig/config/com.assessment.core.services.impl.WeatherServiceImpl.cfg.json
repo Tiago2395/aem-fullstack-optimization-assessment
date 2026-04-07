@@ -1,0 +1,4 @@
+{
+  "api_key": "$[env:WEATHER_API_KEY;default=tu-clave-global]",
+  "api_endpoint": "https://goweather.xyz/weather/%s"
+}
